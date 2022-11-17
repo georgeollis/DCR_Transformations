@@ -26,7 +26,7 @@ A data collection rule collects data from a virtual machine using the Azure Moni
 
 Data collection rules also include any transformations of the data we want to perform. However, **This currently is not visible through the Azure Portal. Deployments of data collection rules that include transformations should be done through ARM or Bicep. **
 
-A bicep file which deploys a data collection rule for Windows virtual machines is available on GitHub by visiting this link: [georgeollis/AMA_Data_Transformations (github.com)](https://github.com/georgeollis/AMA_Data_Transformations/tree/main)
+A bicep file which deploys a data collection rule for Windows virtual machines is available on GitHub by visiting this link: [georgeollis/DCR_Transformations (github.com)](https://github.com/georgeollis/DCR_Transformations)
 
 Let's break down the deployment so we understand what is happening. 
 
