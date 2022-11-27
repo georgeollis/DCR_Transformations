@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.11.1.770",
+      "templateHash": "14613746366101398513"
+    }
+  },
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "windows-rule"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "uksouth"
+    },
+    "workspaceId": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/dataCollectionRules",
+      "apiVersion": "2021-09-01-preview",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "kind": "Windows",
+      "properties": {
+        "dataSources": {
+          "windowsEventLogs": [
+            {
+              "streams": [
+                "Microsoft-Event"
+              ],
+              "xPathQueries": [
+                "Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=5)]]",
+                "Security!*[System[(band(Keywords,13510798882111488))]]",
+                "System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=5)]]"
+              ],
+              "name": "eventLogsDataSource"
+            }
+          ]
+        },
+        "destinations": {
+          "logAnalytics": [
+            {
+              "workspaceResourceId": "[parameters('workspaceId')]",
+              "name": "la-847693882"
+            }
+          ]
+        },
+        "dataFlows": [
+          {
+            "streams": [
+              "Microsoft-Event"
+            ],
+            "destinations": [
+              "la-847693882"
+            ],
+            "transformKql": "source\n| where EventID != 4104 and EventData !contains \"ibsa\" or EventData !contains \"datacollection\"\n"
+          }
+        ]
+      }
+    }
+  ]
+}
